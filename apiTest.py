@@ -27,7 +27,7 @@ def home():
 
     return render_template("index.html", text=text)
 
-
+#Functions for the API; currently placeholders that just output terminal
 def FWD():
     print("Forward")
 
