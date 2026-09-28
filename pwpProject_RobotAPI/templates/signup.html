@@ -7,9 +7,9 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='account_pages.css') }}">
         </head>
     <body>
-        {% if error %}
+        {% if message %}
         <script>
-            alert("{{ error }}");
+            alert("{{ message }}");
         </script>
         {% endif %}
         <h1 id="loginTitle"> Create an Account </h1>
