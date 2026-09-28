@@ -10,5 +10,6 @@ UserID INTEGER PRIMARY KEY AUTOINCREMENT,
 Username VARCHAR(16) UNIQUE NOT NULL,
 Password VARCHAR(16) NOT NULL);""")
 
+#closes database
 conn.commit()
 conn.close()

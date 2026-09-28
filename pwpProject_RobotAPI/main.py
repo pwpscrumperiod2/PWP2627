@@ -2,6 +2,7 @@
 import sqlite3
 from flask import Flask, jsonify, redirect, render_template, request
 
+#creates flask app
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "borat"
 
@@ -45,7 +46,7 @@ def loginForm():
     else:
         return redirect("/login.html?message=Incorrect%20username%20or%20password!")
 
-
+#signals that the sign up button is clicked and starts communication with database
 @app.route("/create-account", methods=["POST"])
 def create_account():
     username = request.form.get("username")
