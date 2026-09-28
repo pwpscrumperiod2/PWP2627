@@ -50,6 +50,8 @@ def RIGHT():
 def STOP():
     print("Stop")
 
+#This is a contribution test
+
 #start the application when running this file
 if __name__ == "__main__":
     app.run(debug=False)
