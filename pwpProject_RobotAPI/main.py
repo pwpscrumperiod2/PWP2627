@@ -116,10 +116,10 @@ def play():
 
 
 # Handle the "pause" action
-@app.route("/pause", methods=["POST"])
-def pause():
+@app.route("/stop", methods=["POST"])
+def stop():
     return jsonify({
-        "action": "pause",
+        "action": "stop",
         "status_code": 200
     })
 

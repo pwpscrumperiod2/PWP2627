@@ -76,12 +76,12 @@ button {
     color: white; 
 } 
 
-.pause { 
+.stop { 
     grid-column: 3; 
     grid-row: 2; 
 } 
 
-.pause button { 
+.stop button { 
     background-color: red; 
     color: white; 
 } 
