@@ -7,8 +7,37 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    <main>
-        <h1>Homepage</h1>
-    </main>
+    <div class="quadrant top-left">
+        <div class="video-placeholder">Video stream placeholder</div>
+    </div>
+    <div class="quadrant top-right">
+        <div class="controls">
+            <form action="/up" method="post" class="up">
+                <button type="submit">▲</button>
+            </form>
+            <form action="/left" method="post" class="left">
+                <button type="submit">◄</button>
+            </form>
+            <form action="/play" method="post" class="play">
+                <button type="submit">▶</button>
+            </form>
+            <form action="/pause" method="post" class="stop">
+                <button type="submit">■</button>
+            </form>
+            <form action="/right" method="post" class="right">
+                <button type="submit">►</button>
+            </form>
+            <form action="/down" method="post" class="down">
+                <button type="submit">▼</button>
+            </form>
+        </div>
+    </div>
+    <div class="quadrant bottom-left">
+        <div class="video-placeholder">Video stream placeholder</div>
+    </div>
+    <div class="quadrant bottom-right">
+        <div class="user-log-title">User Log</div>
+        <div class="user-log"></div>
+    </div>
   </body>
 </html>

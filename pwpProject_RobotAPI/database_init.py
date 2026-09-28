@@ -1,7 +1,7 @@
 import sqlite3
 
 #create and connect to sql
-conn = sqlite3.connect('users.db')
+conn = sqlite3.connect('pwpProject_RobotAPI/users.db')
 cursor = conn.cursor()
 
 #creates sql table for login
