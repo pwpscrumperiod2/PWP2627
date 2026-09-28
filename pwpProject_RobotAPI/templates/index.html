@@ -12,37 +12,47 @@
     alert("{{ message }}");
   </script>
   {% endif %}
+
     <div class="quadrant top-left">
-        <div class="video-placeholder">Video stream placeholder</div>
+        <div class="video">Video</div>
     </div>
+
     <div class="quadrant top-right">
         <div class="controls">
-            <form action="/up" method="post" class="up">
+            <form action="/up" method="post" class="move-up">
                 <button type="submit">▲</button>
             </form>
-            <form action="/left" method="post" class="left">
+
+            <form action="/left" method="post" class="move-left">
                 <button type="submit">◄</button>
             </form>
-            <form action="/play" method="post" class="play">
+
+            <form action="/play" method="post" class="start">
                 <button type="submit">▶</button>
             </form>
-            <form action="/pause" method="post" class="stop">
+
+            <form action="/pause" method="post" class="pause">
                 <button type="submit">■</button>
             </form>
-            <form action="/right" method="post" class="right">
+
+            <form action="/right" method="post" class="move-right">
                 <button type="submit">►</button>
             </form>
-            <form action="/down" method="post" class="down">
+
+            <form action="/down" method="post" class="move-down">
                 <button type="submit">▼</button>
             </form>
         </div>
     </div>
+
     <div class="quadrant bottom-left">
-        <div class="video-placeholder">Video stream placeholder</div>
+        <div class="video">Video</div>
     </div>
+
     <div class="quadrant bottom-right">
         <div class="user-log-title">User Log</div>
         <div class="user-log"></div>
     </div>
+
   </body>
 </html>

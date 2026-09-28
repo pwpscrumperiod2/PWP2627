@@ -14,17 +14,17 @@ def login():
     return render_template("login.html", message=message)
 
 #loads signup page
+@app.route("/signup.html")
+def signup():
+    message = request.args.get("message")
+    return render_template("signup.html", message=message)
+
+#loads signup page
 @app.route("/index.html")
 def home():
     message = request.args.get("message")
     return render_template("index.html", message=message)
 
-
-#loads signup page
-@app.route("/signup.html")
-def signup():
-    message = request.args.get("message")
-    return render_template("signup.html", message=message)
 
 #signals that the login button is clicked and starts communication with database
 @app.route("/login", methods=["POST"])
@@ -36,9 +36,7 @@ def loginForm():
     cursor = conn.cursor()
 
     #Gets usernames and passwords
-    cursor.execute(
-        "SELECT * FROM USERBASE WHERE Username = ? AND Password = ?",(username, password),
-    )
+    cursor.execute("SELECT * FROM USERBASE WHERE Username = ? AND Password = ?",(username, password),)
     output = cursor.fetchone()
     conn.close()
     #Checks if user exists or not
@@ -56,9 +54,7 @@ def create_account():
     cursor = conn.cursor()
 
     #Gets usernames and passwords
-    cursor.execute(
-        "SELECT * FROM USERBASE WHERE Username = ?",(username,),
-    )
+    cursor.execute("SELECT * FROM USERBASE WHERE Username = ?",(username,),)
     output = cursor.fetchone()
 
     #Username already taken
