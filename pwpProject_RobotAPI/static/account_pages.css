@@ -1,0 +1,23 @@
+html {
+        width: 100vw;
+}
+#loginTitle {
+        text-align: center;
+}
+#loginForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+#submit {
+        margin: 20px;
+}
+#signupLink {
+        display: flex;
+        justify-content: center;
+}
+
+input, label{
+    margin: 8px;
+}
