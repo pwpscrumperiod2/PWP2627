@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='account_pages.css') }}">
+  </head>
+  <body>
+        {% if message %}
+        <script>
+            alert("{{ message }}");
+        </script>
+        {% endif %}
+        <main>
+        <h1 id="loginTitle">Login</h1><hr>
+        <form action="/login" method="post" id="loginForm">
+            <label for="username"> Username: </label>
+            <input type="text" pattern="[A-Za-z0-9]+" id="username" name="username">
+            <label for="password"> Password: </label>
+            <input type="password" pattern="[A-Za-z0-9]+" id="password" name="password">
+            <input type="submit" id="submit" name="submit" value="Log In">
+        </form>
+        <a href="signup.html" id="signupLink"> Don't have an account? Click here </a>
+    </main>
+  </body>
+</html>

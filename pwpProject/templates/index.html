@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+  {% if message %}
+  <script>
+    alert("{{ message }}");
+  </script>
+  {% endif %}
+
+    <div class="quadrant top-left">
+        <div class="video">Video</div>
+    </div>
+
+    <div class="quadrant top-right">
+        <div class="controls">
+            <form action="/up" method="post" class="move-up">
+                <button type="submit">▲</button>
+            </form>
+
+            <form action="/left" method="post" class="move-left">
+                <button type="submit">◄</button>
+            </form>
+
+            <form action="/play" method="post" class="start">
+                <button type="submit">▶</button>
+            </form>
+
+            <form action="/stop" method="post" class="stop">
+                <button type="submit">■</button>
+            </form>
+
+            <form action="/right" method="post" class="move-right">
+                <button type="submit">►</button>
+            </form>
+
+            <form action="/down" method="post" class="move-down">
+                <button type="submit">▼</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="quadrant bottom-left">
+        <div class="video">Video</div>
+    </div>
+
+    <div class="quadrant bottom-right">
+        <div class="user-log-title">User Log</div>
+        <div class="user-log"></div>
+    </div>
+
+  </body>
+</html>
