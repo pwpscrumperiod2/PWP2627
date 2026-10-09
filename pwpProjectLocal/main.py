@@ -88,29 +88,30 @@ def up():
 # Handle the "down" action
 @app.route("/down", methods=["POST"])
 def down():
-    return jsonify({
-        "action": "down",
-        "status_code": 200
-    })
+    try:
+        response = requests.post(f"{pi_url}/command",json={"action": "backward"}, timeout=3)
+        return redirect("/index.html?message=Successfully%20Moved%20Backward!")
+    except requests.RequestException:
+        return jsonify({"error": "could not connect to raspberry pi"}), 503 
 
 
 # Handle the "right" action
 @app.route("/right", methods=["POST"])
 def right():
-    return jsonify({
-        "action": "right",
-        "status_code": 200
-    })
-
+    try:
+        response = requests.post(f"{pi_url}/command",json={"action": "right"}, timeout=3)
+        return redirect("/index.html?message=Successfully%20Moved%20Right!")
+    except requests.RequestException:
+        return jsonify({"error": "could not connect to raspberry pi"}), 503 
 
 # Handle the "left" action
 @app.route("/left", methods=["POST"])
 def left():
-    return jsonify({
-        "action": "left",
-        "status_code": 200
-    })
-
+    try:
+        response = requests.post(f"{pi_url}/command",json={"action": "left"}, timeout=3)
+        return redirect("/index.html?message=Successfully%20Moved%20Left!")
+    except requests.RequestException:
+        return jsonify({"error": "could not connect to raspberry pi"}), 503 
 
 # Handle the "play" action
 @app.route("/play", methods=["POST"])
