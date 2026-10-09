@@ -79,8 +79,8 @@ def create_account():
 @app.route("/up", methods=["POST"])
 def up():
     try:
-        reponse = requests.post(f"{pi_url}/command",json={"action": "forward"}, timeout=3)
-        return jsonify(response.json()), response.status_code
+        response = requests.post(f"{pi_url}/command",json={"action": "forward"}, timeout=3)
+        return redirect("/index.html?message=Successfully%20Moved%20Forward!")
     except requests.RequestException:
         return jsonify({"error": "could not connect to raspberry pi"}), 503
 
