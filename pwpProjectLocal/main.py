@@ -1,6 +1,10 @@
 #import libraries for api functionality
 import sqlite3
 from flask import Flask, jsonify, redirect, render_template, request
+import requests
+
+#sets up the messenger to rasPi
+pi_url = "http://192.168.240.28:5001"
 
 #creates flask app
 app = Flask(__name__)
@@ -74,10 +78,11 @@ def create_account():
 # Handle the "up" action
 @app.route("/up", methods=["POST"])
 def up():
-    return jsonify({
-        "action": "up",
-        "status_code": 200
-    })
+    try:
+        reponse = requests.post(f"{pi_url}/command",json={"action": "forward"}, timeout=3)
+        return jsonify(response.json()), response.status_code
+    except requests.RequestException:
+        return jsonify({"error": "could not connect to raspberry pi"}), 503
 
 
 # Handle the "down" action
