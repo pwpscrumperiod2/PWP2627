@@ -33,7 +33,7 @@ def loginForm():
     print("Logged In")
     username = request.form.get("username")
     password = request.form.get("password")
-    conn = sqlite3.connect("pwpProject_RobotAPI/users.db")
+    conn = sqlite3.connect("pwpProjectLocal/users.db")
     cursor = conn.cursor()
 
     #Gets usernames and passwords
