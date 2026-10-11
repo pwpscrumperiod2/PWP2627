@@ -14,6 +14,9 @@ def LEFT():
 def RIGHT():
     print("Turning right")
 
+def PLAY():
+    print("Playing")
+
 def STOP():
     print("Stopping rover")
 
@@ -28,6 +31,7 @@ def command():
         "backward": BACKWD,
         "left": LEFT,
         "right": RIGHT,
+        "play": PLAY,
         "stop": STOP
     }
 

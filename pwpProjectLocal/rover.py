@@ -90,15 +90,39 @@ def setup_routes(app):
     # Play
     @app.route("/play", methods=["POST"])
     def play():
-        return jsonify({
-            "action": "play",
-            "status_code": 200
-        })
+        try:
+            response = requests.post(
+                f"{pi_url}/command",
+                json={"action": "play"},
+                timeout=3
+            )
+            response.raise_for_status()
+
+            return redirect(
+                "/index.html?message=Successfully%20Started!"
+            )
+
+        except requests.RequestException:
+            return jsonify({
+                "error": "could not connect to raspberry pi"
+            }), 503
 
     # Stop
     @app.route("/stop", methods=["POST"])
     def stop():
-        return jsonify({
-            "action": "stop",
-            "status_code": 200
-        })
+        try:
+            response = requests.post(
+                f"{pi_url}/command",
+                json={"action": "stop"},
+                timeout=3
+            )
+            response.raise_for_status()
+
+            return redirect(
+                "/index.html?message=Successfully%20Stopped!"
+            )
+
+        except requests.RequestException:
+            return jsonify({
+                "error": "could not connect to raspberry pi"
+            }), 503
