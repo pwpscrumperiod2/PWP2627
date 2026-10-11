@@ -1,54 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--Sets up header, title, stylesheet-->
     <meta charset="UTF-8">
     <title>Homepage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
+  <!--A little bit of JS to post alerts-->
   {% if message %}
   <script>
     alert("{{ message }}");
   </script>
   {% endif %}
 
+    <!--Filler div for the video in the top left-->
     <div class="quadrant top-left">
         <div class="video">Video</div>
     </div>
 
+    <!--Quadrant for the inputs-->
     <div class="quadrant top-right">
         <div class="controls">
+            <!--Up button connected to the /up request-->
             <form action="/up" method="post" class="move-up">
                 <button type="submit">▲</button>
             </form>
 
+            <!--Left button connected to the /left request-->
             <form action="/left" method="post" class="move-left">
                 <button type="submit">◄</button>
             </form>
 
+            <!--PLay button connected to the /play request-->
             <form action="/play" method="post" class="start">
                 <button type="submit">▶</button>
             </form>
 
+            <!--Stop button connected to the /stop request-->
             <form action="/stop" method="post" class="stop">
                 <button type="submit">■</button>
             </form>
 
+            <!--Right button connected to the /right request-->
             <form action="/right" method="post" class="move-right">
                 <button type="submit">►</button>
             </form>
 
+            <!--Down button connected to the /down request-->
             <form action="/down" method="post" class="move-down">
                 <button type="submit">▼</button>
             </form>
         </div>
     </div>
 
+    <!--Quadrant with div filler for video-->
     <div class="quadrant bottom-left">
         <div class="video">Video</div>
     </div>
 
+    <!--Quadrant with user log-->
     <div class="quadrant bottom-right">
         <div class="user-log-title">User Log</div>
         <div class="user-log"></div>

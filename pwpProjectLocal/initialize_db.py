@@ -1,3 +1,4 @@
+#import database management library
 import sqlite3
 
 #create and connect to sql

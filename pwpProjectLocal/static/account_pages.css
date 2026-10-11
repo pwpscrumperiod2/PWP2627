@@ -1,36 +1,46 @@
+/* Sets the font and background color for the page */
 html {
     width: 100vw;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
     background-color: rgba(230, 240, 233, 0.85); 
 }
 
+/* Centers the login heading */
 #loginTitle {
     text-align: center;
 }
+
+/* Stacks the login form elements and centers them */
 #loginForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
+/* Adds space around the submit button */
 #submit {
     margin: 20px;
 }
+
+/* Centers the sign-up link */
 #signupLink {
     display: flex;
     justify-content: center;
 }
 
-input, label{
+/* Styles the text fields and their labels */
+input, label {
     margin: 8px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
     font-size: 24px;
     border-radius: 3px;
     padding: 5px;
     border-color: black;
 }
 
-input[type="submit"]{
+/* Changes the appearance of the submit button */
+input[type="submit"] {
     border: 3px solid black;
     border-radius: 10px;
     padding: 10px 50px;
@@ -38,7 +48,8 @@ input[type="submit"]{
     cursor: pointer;
 }
 
-input[type="submit"]:hover{
+/* Changes the button color when the mouse hovers over it */
+input[type="submit"]:hover {
     transition: 0.3s;
     background-color: rgba(0,0,0,0);
     border-color: green;

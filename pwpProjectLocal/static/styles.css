@@ -1,25 +1,30 @@
+/* Applies the same sizing and font to everything */
 * { 
     box-sizing: border-box; 
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
 } 
 
+/* Makes the page fill the whole screen */
 html, body { 
     margin: 0; 
     width: 100vw; 
     height: 100vh; 
 } 
 
+/* Splits the page into four equal sections */
 body { 
     display: grid; 
     grid-template-columns: 50vw 50vw; 
     grid-template-rows: 50% 50%; 
 } 
 
+/* Basic styling for each section */
 .quadrant { 
     background-color: rgba(230, 240, 233, 0.85); 
     border: 2px solid black; 
 } 
 
+/* Centers the video text and gives it a black background */
 .video { 
     margin: 5px 5px; 
     background-color: black; 
@@ -31,12 +36,14 @@ body {
     font-size: 30px; 
 } 
 
+/* Centers the movement controls in the top-right section */
 .top-right { 
     display: flex; 
     justify-content: center; 
     align-items: center; 
 } 
 
+/* Sets up the layout for the control buttons */
 .controls { 
     display: grid; 
     grid-template-columns: 65px 40px 40px 65px; 
@@ -44,11 +51,13 @@ body {
     gap: 5px; 
 } 
 
+/* Makes each form fit inside its grid space */
 .controls form { 
     width: 100%; 
     height: 100%; 
 } 
 
+/* General button styling */
 button { 
     font-size: 20px; 
     width: 100%; 
@@ -56,16 +65,19 @@ button {
     cursor: pointer; 
 } 
 
+/* Places the up button above the other controls */
 .move-up { 
     grid-column: 2 / span 2; 
     grid-row: 1; 
 } 
 
+/* Places the left button on the middle row */
 .move-left { 
     grid-column: 1; 
     grid-row: 2; 
 } 
 
+/* Places the start button in the middle and makes it green */
 .start { 
     grid-column: 2; 
     grid-row: 2; 
@@ -76,6 +88,7 @@ button {
     color: white; 
 } 
 
+/* Places the stop button next to start and makes it red */
 .stop { 
     grid-column: 3; 
     grid-row: 2; 
@@ -86,27 +99,32 @@ button {
     color: white; 
 } 
 
+/* Places the right button on the other side */
 .move-right { 
     grid-column: 4; 
     grid-row: 2; 
 } 
 
+/* Places the down button below the middle buttons */
 .move-down { 
     grid-column: 2 / span 2; 
     grid-row: 3; 
 } 
 
+/* Stacks the log title and log area vertically */
 .bottom-right { 
     display: flex; 
     flex-direction: column; 
 } 
 
+/* Styles the heading above the user log */
 .user-log-title { 
     margin: 10px; 
     text-align: center; 
     font-size: 30px; 
 } 
 
+/* Gives the user log a gray background and fills the remaining space */
 .user-log { 
     margin: 5px; 
     background-color: rgba(211, 211, 211, 0.8); 

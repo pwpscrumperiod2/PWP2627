@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!--Sets up header, title, stylesheet-->
         <meta charset="UTF-8">
         <title>Signup</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='account_pages.css') }}">
         </head>
     <body>
+        <!--A little bit of JS to post alerts-->
         {% if message %}
         <script>
             alert("{{ message }}");
@@ -14,6 +16,7 @@
         {% endif %}
         <h1 id="loginTitle"> Create an Account </h1>
         <hr>
+        <!--Sets up the signup form and request /create-account -->
         <form action="/create-account" method="post" id="loginForm">
             <label for="username"> Username: </label>
             <input type="text" pattern="[A-Za-z0-9]+" id="username" name="username">
@@ -21,6 +24,7 @@
             <input type="password" pattern="[A-Za-z0-9]+" id="password" name="password">
             <input type="submit" id="submit" name="submit" value="Sign Up">
         </form>
+        <!--Redirect to login-->
         <a href="login.html" id="signupLink">Already have an account? Click here to login</a>
   </body>
 </html>
