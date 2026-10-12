@@ -1,5 +1,5 @@
 #Web application library
-from flask import jsonify, redirect
+from flask import jsonify, redirect, render_template, request
 #Communication with the RASPI library
 import requests
 
@@ -8,6 +8,11 @@ pi_url = "http://192.168.240.28:5001"
 
 #Create a function to setup routes, obtains access to the important app varialbe
 def setup_routes(app):
+    #Directs homepage to GUI page
+    @app.route("/index.html")
+    def home():
+        message = request.args.get("message")
+        return render_template("index.html", message=message)
 
     #forward when the up button is clicked
     @app.route("/up", methods=["POST"])

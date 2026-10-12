@@ -10,28 +10,6 @@ import rover
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "borat"
 
-"""SETS UP WEB PAGES"""
-#Directs login URL to login page
-@app.route("/")
-@app.route("/login.html")
-def login_page():
-    message = request.args.get("message")
-    return render_template("login.html", message=message)
-
-
-#Directs signup URL to signup page
-@app.route("/signup.html")
-def signup_page():
-    message = request.args.get("message")
-    return render_template("signup.html", message=message)
-
-
-#Directs homepage to GUI page
-@app.route("/index.html")
-def home():
-    message = request.args.get("message")
-    return render_template("index.html", message=message)
-
 
 # Register routes from other files
 login.setup_routes(app)
