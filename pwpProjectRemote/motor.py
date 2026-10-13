@@ -42,9 +42,16 @@ class MotorDriver():
                 print ("4")
                 pwm.setLevel(self.BIN1, 1)
                 pwm.setLevel(self.BIN2, 0)
-
+    
     def MotorStop(self, motor):
-        if (motor == 0):
+        if motor == 0:
+            # Stop Motor A
             pwm.setDutycycle(self.PWMA, 0)
-        else:
+            pwm.setLevel(self.AIN1, 0)
+            pwm.setLevel(self.AIN2, 0)
+    
+        elif motor == 1:
+            # Stop Motor B
             pwm.setDutycycle(self.PWMB, 0)
+            pwm.setLevel(self.BIN1, 0)
+            pwm.setLevel(self.BIN2, 0)
