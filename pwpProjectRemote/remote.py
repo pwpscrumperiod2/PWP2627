@@ -10,54 +10,73 @@ Motor = MotorDriver()
 
 #Forward function
 def FWD():
+    #fetches the motor object
     global Motor
-    print("this is a motor driver test code")
     
-    print("forward 1 s")
     #one of the motors is flipped
     Motor.MotorRun(0, 'forward', 50)
     Motor.MotorRun(1, 'backward', 50)
+    #one second of movement before stopping
     time.sleep(1)
-    
-    print("stop")
+
+    #stop the motors
     Motor.MotorStop(0)
     Motor.MotorStop(0)
 
 
 #Backward Function
 def BACKWD():
+    #fetches the motor object
     global Motor
-    print("this is a motor driver test code")
     
-    print("forward 1 s")
-    #one of the motors is flipped
-    Motor.MotorRun(1, 'forward', 50)
+    #one of the motors is flipped, they are going backward
     Motor.MotorRun(0, 'backward', 50)
+    Motor.MotorRun(1, 'forward', 50)
+    #one second of movement before stopping
     time.sleep(1)
 
-    print("stop")
+    #stop the motors
     Motor.MotorStop(0)
     Motor.MotorStop(0)
 
 #Left function
 def LEFT():
+    #fetches the motor object
     global Motor
-    print("Turning left")
-    Motor.MotorRun(0, 'forward', 50)
-    time.sleep(0.5)
+    
+    #one of the motors is flipped, they are turning left
+    Motor.MotorRun(0, 'backward', 50)
+    Motor.MotorRun(1, 'backward', 50)
+    #0.3 second of movement before stopping
+    time.sleep(0.3)
+
+    #stop the motors
+    Motor.MotorStop(0)
     Motor.MotorStop(0)
 
 #Right function
 def RIGHT():
-    print("Turning right")
+    #fetches the motor object
+    global Motor
+    
+    #one of the motors is flipped, they are turning right
+    Motor.MotorRun(0, 'forward', 50)
+    Motor.MotorRun(1, 'forward', 50)
+    #0.3 second of movement before stopping
+    time.sleep(0.3)
 
+    #stop the motors
+    Motor.MotorStop(0)
+    Motor.MotorStop(0)
 #PLay function
 def PLAY():
     print("Playing")
 
 #Stop function
 def STOP():
+    #fetches the motor object
     global Motor
+    #stop the motors
     Motor.MotorStop(0)
     Motor.MotorStop(1)
     print("Stopping rover")
