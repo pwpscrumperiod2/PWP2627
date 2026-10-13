@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, request
 #Import the motor control library
 from motor import MotorDriver
+import time
 
 #Creates a reciever
 app = Flask(__name__)
@@ -11,15 +12,11 @@ def FWD():
     print("this is a motor driver test code")
     Motor = MotorDriver()
     
-    print("forward 2 s")
-    Motor.MotorRun(0, 'forward', 100)
-    Motor.MotorRun(1, 'backward', 100)
-    time.sleep(2)
-    
-    print("backward 2 s")
-    Motor.MotorRun(0, 'backward', 100)
-    Motor.MotorRun(1, 'backward', 100)
-    time.sleep(2)
+    print("forward 1 s")
+    #one of the motors is flipped
+    Motor.MotorRun(0, 'forward', 50)
+    Motor.MotorRun(1, 'backward', 50)
+    time.sleep(1)
     
     print("stop")
     Motor.MotorStop(0)
