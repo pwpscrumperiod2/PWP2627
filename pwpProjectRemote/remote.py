@@ -1,5 +1,7 @@
 #Imports library to set up a reciever and communcation
 from flask import Flask, jsonify, request
+#Import the motor control library
+from motor import MotorDriver
 
 #Creates a reciever
 app = Flask(__name__)
