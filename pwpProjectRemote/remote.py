@@ -6,11 +6,12 @@ import time
 
 #Creates a reciever
 app = Flask(__name__)
+Motor = MotorDriver()
 
 #Forward function
 def FWD():
+    global Motor
     print("this is a motor driver test code")
-    Motor = MotorDriver()
     
     print("forward 1 s")
     #one of the motors is flipped
@@ -25,8 +26,8 @@ def FWD():
 
 #Backward Function
 def BACKWD():
+    global Motor
     print("this is a motor driver test code")
-    Motor = MotorDriver()
     
     print("forward 1 s")
     #one of the motors is flipped
@@ -40,6 +41,7 @@ def BACKWD():
 
 #Left function
 def LEFT():
+    global Motor
     print("Turning left")
     Motor.MotorRun(0, 'forward', 50)
     time.sleep(0.5)
@@ -55,6 +57,7 @@ def PLAY():
 
 #Stop function
 def STOP():
+    global Motor
     Motor.MotorStop(0)
     Motor.MotorStop(1)
     print("Stopping rover")
