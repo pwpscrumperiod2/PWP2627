@@ -8,7 +8,23 @@ app = Flask(__name__)
 
 #Forward function
 def FWD():
-    print("Moving forward")
+    print("this is a motor driver test code")
+    Motor = MotorDriver()
+    
+    print("forward 2 s")
+    Motor.MotorRun(0, 'forward', 100)
+    Motor.MotorRun(1, 'backward', 100)
+    time.sleep(2)
+    
+    print("backward 2 s")
+    Motor.MotorRun(0, 'backward', 100)
+    Motor.MotorRun(1, 'backward', 100)
+    time.sleep(2)
+    
+    print("stop")
+    Motor.MotorStop(0)
+    Motor.MotorStop(1)
+
 
 #Backward Function
 def BACKWD():
