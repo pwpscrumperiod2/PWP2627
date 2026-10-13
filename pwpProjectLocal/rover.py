@@ -4,7 +4,7 @@ from flask import jsonify, redirect, render_template, request
 import requests
 
 #IP address of the PI on the CS network
-pi_url = "http://192.168.240.28:5001"
+pi_url = "http://192.168.240.247:5001"
 
 #Create a function to setup routes, obtains access to the important app varialbe
 def setup_routes(app):
