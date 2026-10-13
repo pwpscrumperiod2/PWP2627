@@ -20,16 +20,30 @@ def FWD():
     
     print("stop")
     Motor.MotorStop(0)
-    Motor.MotorStop(1)
+    Motor.MotorStop(0)
 
 
 #Backward Function
 def BACKWD():
-    print("Moving backward")
+    print("this is a motor driver test code")
+    Motor = MotorDriver()
+    
+    print("forward 1 s")
+    #one of the motors is flipped
+    Motor.MotorRun(1, 'forward', 50)
+    Motor.MotorRun(0, 'backward', 50)
+    time.sleep(1)
+
+    print("stop")
+    Motor.MotorStop(0)
+    Motor.MotorStop(0)
 
 #Left function
 def LEFT():
     print("Turning left")
+    Motor.MotorRun(0, 'forward', 50)
+    time.sleep(0.5)
+    Motor.MotorStop(0)
 
 #Right function
 def RIGHT():
@@ -41,6 +55,8 @@ def PLAY():
 
 #Stop function
 def STOP():
+    Motor.MotorStop(0)
+    Motor.MotorStop(1)
     print("Stopping rover")
 
 #Establishes receiving function
