@@ -8,20 +8,22 @@ import time
 app = Flask(__name__)
 Motor = MotorDriver()
 
+
+"""Motor 0 is the motor on the right side of the rover; it is stronger than the motor on th left side of the rover"""
 #Forward function
 def FWD():
     #fetches the motor object
     global Motor
     
-    #one of the motors is flipped
-    Motor.MotorRun(0, 'forward', 50)
-    Motor.MotorRun(1, 'backward', 50)
-    #one second of movement before stopping
-    time.sleep(1)
+    #one of the motors is flipped, different speeds to calibrate
+    Motor.MotorRun(0, 'forward', 56)
+    Motor.MotorRun(1, 'backward', 64)
+    #movement before stopping
+    time.sleep(1.5)
 
     #stop the motors
     Motor.MotorStop(0)
-    Motor.MotorStop(0)
+    Motor.MotorStop(1)
 
 
 #Backward Function
@@ -29,48 +31,65 @@ def BACKWD():
     #fetches the motor object
     global Motor
     
-    #one of the motors is flipped, they are going backward
-    Motor.MotorRun(0, 'backward', 50)
-    Motor.MotorRun(1, 'forward', 50)
-    #one second of movement before stopping
-    time.sleep(1)
+    #one of the motors is flipped, different speeds to calibrate
+    Motor.MotorRun(0, 'backward', 56)
+    Motor.MotorRun(1, 'forward', 64)
+    #movement before stopping
+    time.sleep(1.5)
 
     #stop the motors
     Motor.MotorStop(0)
-    Motor.MotorStop(0)
+    Motor.MotorStop(1)
 
-#Left function
+#Left turning function
 def LEFT():
     #fetches the motor object
     global Motor
     
     #one of the motors is flipped, they are turning left
-    Motor.MotorRun(0, 'backward', 50)
-    Motor.MotorRun(1, 'backward', 50)
-    #0.3 second of movement before stopping
-    time.sleep(0.3)
+    Motor.MotorRun(0, 'forward', 50)
+    Motor.MotorRun(1, 'forward', 50)
+    #movement before stopping
+    time.sleep(0.5)
 
     #stop the motors
     Motor.MotorStop(0)
-    Motor.MotorStop(0)
+    Motor.MotorStop(1)
 
-#Right function
+#Right turning function
 def RIGHT():
     #fetches the motor object
     global Motor
     
     #one of the motors is flipped, they are turning right
-    Motor.MotorRun(0, 'forward', 50)
-    Motor.MotorRun(1, 'forward', 50)
-    #0.3 second of movement before stopping
-    time.sleep(0.3)
+    Motor.MotorRun(0, 'backward', 50)
+    Motor.MotorRun(1, 'backward', 50)
+    #movement before stopping
+    time.sleep(0.5)
 
     #stop the motors
     Motor.MotorStop(0)
-    Motor.MotorStop(0)
+    Motor.MotorStop(1)
 #PLay function
 def PLAY():
-    print("Playing")
+    #3 Instances of forward to move the designated distance
+    for i in range(3):
+        FWD()
+    #4 instances of right turning to turn 90 degrees
+    for i in range(4):
+        RIGHT()
+    #7 instances of backwards movement to cross the path
+    for i in range(7):
+        BACKWD()
+    #3 Instances of forward to move back to the center
+    for i in range(3):
+        FWD()
+    #4 instances of left turning to return to starting alignment
+    for i in range(4):
+        LEFT()
+    #3 instances of backwards movement to reverse into starting position
+    for i in range(3):
+        BACKWD()
 
 #Stop function
 def STOP():
