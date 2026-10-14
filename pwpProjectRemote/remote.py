@@ -26,7 +26,7 @@ def BACKWD():
     
     #one of the motors is flipped, different speeds to calibrate
     Motor.MotorRun(0, 'backward', 62)
-    Motor.MotorRun(1, 'forward', 65)
+    Motor.MotorRun(1, 'forward', 66)
 
 #Left turning function
 def LEFT():
