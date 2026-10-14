@@ -18,9 +18,6 @@ def FWD():
     #one of the motors is flipped, different speeds to calibrate
     Motor.MotorRun(0, 'forward', 56)
     Motor.MotorRun(1, 'backward', 64)
-    #movement before stopping
-
-    #stop the motors
 
 #Backward Function
 def BACKWD():
@@ -30,9 +27,6 @@ def BACKWD():
     #one of the motors is flipped, different speeds to calibrate
     Motor.MotorRun(0, 'backward', 62)
     Motor.MotorRun(1, 'forward', 65)
-    #movement before stopping
-
-    #stop the motors
 
 #Left turning function
 def LEFT():
@@ -42,9 +36,6 @@ def LEFT():
     #one of the motors is flipped, they are turning left
     Motor.MotorRun(0, 'forward', 50)
     Motor.MotorRun(1, 'forward', 50)
-    #movement before stopping
-
-    #stop the motors
 
 #Right turning function
 def RIGHT():
@@ -54,9 +45,7 @@ def RIGHT():
     #one of the motors is flipped, they are turning right
     Motor.MotorRun(0, 'backward', 50)
     Motor.MotorRun(1, 'backward', 50)
-    #movement before stopping
 
-    #stop the motors
 #PLay function
 def PLAY():
     #3 Instances of forward to move the designated distance
