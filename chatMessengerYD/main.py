@@ -13,9 +13,17 @@ with sock as sock:
         with conn:
             print(f"Connected by {addr}")
             while True:
-                message = input("You: ").encode()
+
                 data = conn.recv(1024)
                 if not data:
                     break
-                conn.sendall(message)
                 print(f"Them: {data.decode()}")
+
+                message = input("You: ")
+                if message == "quit":
+                    conn.sendall("They exited the chat.".encode())
+                    break
+
+                message = message.encode()
+
+                conn.sendall(message)
