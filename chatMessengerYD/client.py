@@ -20,7 +20,7 @@ def listener():
             data = sock.recv(1024)
 
             if data.decode() == "Boop":
-                print("The other person closed the connection")
+                print("The other person closed the connection.")
                 listening = False
                 break
 

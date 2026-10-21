@@ -62,7 +62,7 @@ with listeningSocket as listeningSocket:
         #this is the actual server-client connection, when it exits this socket closes
         #on a real persistent server you would not close the (other) listening socket and instead leave it open
         with sock:
-            print(f"{addr} connected to the server.\n")
+            print(f"{addr[0]} connected to the server on port {addr[1]}.\n")
 
             #the actual input loop, where it allows you to type
             while listening:
