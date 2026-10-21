@@ -18,11 +18,13 @@ def listener():
     while listening:
         try:
             data = sock.recv(1024)
-            print(f"|{data.decode()}")
 
             if data.decode() == "Boop":
-                listening == False
+                print("The other person closed the connection")
+                listening = False
                 break
+
+            print(f"|{data.decode()}")
 
             if not data:
                 break

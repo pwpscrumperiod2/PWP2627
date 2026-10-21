@@ -7,7 +7,7 @@ import threading
 #making one
 PORT = 8000
 HOST = ""
-listening = True
+serverRunning = True
 
 print("\nWelcome to Terminal Chat Messenger 0.1 (Server)")
 print("    Any incoming messages start with a |")
@@ -15,7 +15,7 @@ print("----------------------------------------------\n")
 
 #same function from the client side
 def listener():
-    global listening
+    global serverRunning
 
     #sets timeout for one second, so that every one second, it restarts the listening
     sock.settimeout(1.0)
@@ -28,18 +28,21 @@ def listener():
 
             if data.decode() == "Boop":
                 print("The other person closed the connection.")
-                listening = False
+                serverRunning = False
                 break
 
             if not data:
-                listening = False
+                serverRunning = False
                 break
 
-            if listening == False:
+            if serverRunning == False:
                 break
 
         except socket.timeout: #shuts it off once hit timeout
             continue
+
+        except OSError: #for the issue on line 26, when it tries to access a sock that doesn't exist
+            print("Connection Closed.")
 
 listeningSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -47,7 +50,8 @@ with listeningSocket as listeningSocket:
     listeningSocket.bind((HOST, PORT))
     listeningSocket.listen()
 
-    while listening: 
+    while serverRunning: 
+        listening = True
         sock, addr = listeningSocket.accept()
             
         #starts the listener function
