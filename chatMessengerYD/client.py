@@ -5,6 +5,10 @@ HOST = "127.0.0.1"
 PORT = 8000
 listening = True
 
+print("\nWelcome to Terminal Chat Messenger 0.1 (Client)")
+print("     Any incoming messages start with a |")
+print("-----------------------------------------------\n")
+
 def listener():
     global listening
 
@@ -14,7 +18,11 @@ def listener():
     while listening:
         try:
             data = sock.recv(1024)
-            print(f"\nThem: {data.decode()}")
+            print(f"|{data.decode()}")
+
+            if data.decode() == "Boop":
+                listening == False
+                break
 
             if not data:
                 break
@@ -24,29 +32,45 @@ def listener():
         except socket.timeout: #shuts it off once hit timeout
             continue
 
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-    sock.connect((HOST, PORT))
-    print(f"You connected to {HOST} at port {PORT}.")
-    print("Type anywhere to send a message")
 
-    sock.sendall("hiawef".encode())
-    
-    #background listener
-    t = threading.Thread(target=listener)
-    t.start()
+    try:
+        sock.connect((HOST, PORT))
 
-    while True:
+        print(f"You connected to {HOST} at port {PORT}.")
+        print("Type anywhere to send a message\n")
 
-        message = input("")
-        if message == "quit":
-            listening = False            
-            sock.sendall("They exited the chat.".encode())
-            sock.shutdown(socket.SHUT_RDWR) #shuts down connection
-            t.join() #brings listener thread to foreground
+        sock.sendall("Connected".encode())
+        
+        #background listener
+        t = threading.Thread(target=listener)
+        t.start()
 
-            print("\nExiting...")
-            break
+        while listening:
 
-        message = message.encode()
-        sock.sendall(message)
+            message = input("")
+            if message == "quit":
+                listening = False            
+                sock.sendall("Boop".encode())
+                sock.shutdown(socket.SHUT_RDWR) #shuts down connection
+                t.join() #brings listener thread to foreground
+
+                print("\nExiting...")
+                break
+
+            message = message.encode()
+
+            try:
+                sock.sendall(message)
+
+            except ConnectionResetError:
+                print("ConnectionResetError Inner")
+                listening = False
+                break
+
+    #explicitly checks only if the server does not respond        
+    except ConnectionRefusedError:
+        print("Unable to connect to server.")
+        listening = False
 

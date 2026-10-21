@@ -9,21 +9,32 @@ PORT = 8000
 HOST = ""
 listening = True
 
+print("\nWelcome to Terminal Chat Messenger 0.1 (Server)")
+print("    Any incoming messages start with a |")
+print("----------------------------------------------\n")
+
 #same function from the client side
 def listener():
     global listening
 
     #sets timeout for one second, so that every one second, it restarts the listening
-    listeningSocket.settimeout(1.0)
+    sock.settimeout(1.0)
 
     while listening:
         try:
             #recieves the data, decodes it from binary format, and prints it
             data = sock.recv(1024)
-            print(f"\nThem: {data.decode()}")
+            print(f"| {data.decode()}")
+
+            if data.decode() == "Boop":
+                print("The other person closed the connection.")
+                listening = False
+                break
 
             if not data:
+                listening = False
                 break
+
             if listening == False:
                 break
 
@@ -36,7 +47,7 @@ with listeningSocket as listeningSocket:
     listeningSocket.bind((HOST, PORT))
     listeningSocket.listen()
 
-    while True:
+    while listening: 
         sock, addr = listeningSocket.accept()
             
         #starts the listener function
@@ -44,22 +55,23 @@ with listeningSocket as listeningSocket:
         t.start()
 
         #opens the connection
+        #this is the actual server-client connection, when it exits this socket closes
+        #on a real persistent server you would not close the (other) listening socket and instead leave it open
         with sock:
             print(f"{addr} connected to the server.\n")
 
             #the actual input loop, where it allows you to type
-            while True:
+            while listening:
 
                 message = input("")
                 if message == "quit":
                     listening = False
-                    sock.sendall("They exited the chat.".encode())
+                    sock.sendall("Boop".encode())
 
                     print("\nExiting...")
                     break
 
                 message = message.encode()
-
                 sock.sendall(message)
 
             break
