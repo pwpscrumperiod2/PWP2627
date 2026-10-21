@@ -43,7 +43,7 @@ def listener():
 
         except OSError: #for the issue on line 26, when it tries to access a sock that doesn't exist
             print("Connection Closed")
-	    break
+            break
 
 listeningSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
