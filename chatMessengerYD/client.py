@@ -1,6 +1,5 @@
 import socket
 import threading
-import sys 
 
 HOST = "127.0.0.1"
 PORT = 8000
@@ -15,7 +14,7 @@ def listener():
     while listening:
         try:
             data = sock.recv(1024)
-            print(f"Them: {data.decode()}")
+            print(f"\nThem: {data.decode()}")
 
             if not data:
                 break
@@ -27,7 +26,8 @@ def listener():
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, PORT))
-    print(f"Client connected to {HOST} at port {PORT}")
+    print(f"You connected to {HOST} at port {PORT}.")
+    print("Type anywhere to send a message")
 
     sock.sendall("hiawef".encode())
     
@@ -37,15 +37,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
     while True:
 
-        message = input("You: ")
+        message = input("")
         if message == "quit":
             listening = False            
             sock.sendall("They exited the chat.".encode())
-            sock.shutdown(socket.SHUT_RDWR)
-            t.join()
+            sock.shutdown(socket.SHUT_RDWR) #shuts down connection
+            t.join() #brings listener thread to foreground
 
             print("\nExiting...")
-            sys.exit()
             break
 
         message = message.encode()

@@ -45,21 +45,21 @@ with listeningSocket as listeningSocket:
 
         #opens the connection
         with sock:
-            print(f"Connected by {addr}")
+            print(f"{addr} connected to the server.\n")
 
             #the actual input loop, where it allows you to type
             while True:
 
-                message = input("You: ")
+                message = input("")
                 if message == "quit":
                     listening = False
                     sock.sendall("They exited the chat.".encode())
-                    sock.shutdown(socket.SHUT_RDWR) #shuts down the connection
 
-                    t.join() #brings the thread to the foreground
                     print("\nExiting...")
                     break
 
                 message = message.encode()
 
                 sock.sendall(message)
+
+            break
