@@ -70,15 +70,6 @@ def retrieve_input():
     cursor = conn.cursor()
 
 
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS USERBASE (
-        UserID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Username VARCHAR(16) UNIQUE NOT NULL,
-        Password VARCHAR(16) NOT NULL
-    );
-    ''')
-
-
     if radio_var.get() == 0:
         #nothing selected
         messagebox.showinfo("Problem", "Please choose an action and try again")

@@ -1,5 +1,3 @@
-#Web application library
-from flask import jsonify, redirect, render_template, request
 #Communication with the RASPI library
 import requests
 
@@ -7,7 +5,7 @@ import requests
 pi_url = "http://192.168.240.247:5001"
 
 #Create a function to setup routes, obtains access to the important app varialbe
-def setup_routes(app):
+"""def setup_routes(app):
     #Directs homepage to GUI page
     @app.route("/index.html")
     def home():
@@ -151,3 +149,4 @@ def setup_routes(app):
             return jsonify({
                 "error": "could not connect to raspberry pi"
             }), 503
+"""
