@@ -47,13 +47,13 @@ def RIGHT():
 
 #PLay function
 def PLAY():
-    #3 Instances of forward to move the designated distance
+    #4 Instances of forward to move the designated distance
     for i in range(4):
         FWD()
-    #4 instances of right turning to turn 90 degrees
+    #6 instances of right turning to turn 90 degrees
     for i in range(6):
         RIGHT()
-    #7 instances of backwards movement to cross the path
+    #5 instances of backwards movement to cross the path
     for i in range(5):
         BACKWD()
     #3 Instances of forward to move back to the center
@@ -82,6 +82,7 @@ def command():
     data = request.get_json(silent=True) or {}
     action = data.get("action")
 
+    #matches each command name to the function that runs it
     commands = {
         "forward": FWD,
         "backward": BACKWD,
@@ -95,7 +96,7 @@ def command():
     if action not in commands:
         return jsonify({"error": "Invalid command"}), 400
 
-    #executes the command
+    #executes the command by calling the matching function
     commands[action]()
 
     #returns success message

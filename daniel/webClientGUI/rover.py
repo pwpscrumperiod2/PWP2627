@@ -1,10 +1,12 @@
 #Communication with the RASPI library
+from tkinter import messagebox
 import requests
 import config
 
 #IP address of the PI on the CS network
 pi_url = f"http://{config.PI_IP}:{config.PI_PORT}"
 
+#forward when the up button is clicked
 def up():
     try:
         #Sends a JSON message to Raspi to Forward
@@ -15,12 +17,12 @@ def up():
         )
         response.raise_for_status()
 
-        #Reloads the page with a success message
-        return "Successfully Moved Forward!"
+        #Shows a popup with a success message
+        messagebox.showinfo("Notification", "Successfully Moved Forward!")
 
-    #Returns the error message
+    #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        return "could not connect to raspberry pi"
+        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
 
 #backward when the down button is clicked
 def down():
@@ -33,12 +35,11 @@ def down():
         )
         response.raise_for_status()
 
-        #Reloads the page with a success message
-        return "Successfully Moved Backward!"
-
-    #Returns the error message
+        #Shows a popup with a success message
+        messagebox.showinfo("Notification", "Successfully Moved Backward!")
+    #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        return "could not connect to raspberry pi"
+        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
 
 #right when the right button is clicked
 def right():
@@ -51,12 +52,12 @@ def right():
         )
         response.raise_for_status()
 
-        #Reloads the page with a success message
-        return "Successfully Moved Right!"
+        #Shows a popup with a success message
+        messagebox.showinfo("Notification", "Successfully Moved Right!")
 
-    #Returns the error message
+    #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        return "could not connect to raspberry pi"
+        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
 
 #left when the left button is clicked
 def left():
@@ -69,12 +70,12 @@ def left():
         )
         response.raise_for_status()
 
-        #Reloads the page with a success message
-        return "Successfully Moved Left!"
+        #Shows a popup with a success message
+        messagebox.showinfo("Notification", "Successfully Moved Left!")
 
-    #Returns the error message
+    #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        return "could not connect to raspberry pi"
+        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
 
 #play when the play button is clicked
 def play():
@@ -87,12 +88,12 @@ def play():
         )
         response.raise_for_status()
 
-        #Reloads the page with a success message
-        return "Successfully Started!"
+        #Shows a popup with a success message
+        messagebox.showinfo("Notification", "Successfully Started!")
 
-    #Returns the error message
+    #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        return "could not connect to raspberry pi"
+        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
 
 #stop when the stop button is clicked
 def stop():
@@ -105,9 +106,9 @@ def stop():
         )
         response.raise_for_status()
 
-        #Reloads the page with a success message
-        return "Successfully Stopped!"
+        #Shows a popup with a success message
+        messagebox.showinfo("Notification", "Successfully Stopped!")
 
-    #Returns the error message
+    #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        return "could not connect to raspberry pi"
+        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
