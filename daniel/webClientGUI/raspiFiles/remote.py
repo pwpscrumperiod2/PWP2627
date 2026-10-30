@@ -2,7 +2,6 @@
 from flask import Flask, jsonify, request
 #Import the motor control library
 from motor import MotorDriver
-import time
 
 #Creates a reciever
 app = Flask(__name__)

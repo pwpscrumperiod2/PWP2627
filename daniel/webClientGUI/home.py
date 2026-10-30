@@ -59,12 +59,12 @@ controls.place(
    height=half_height
 )
 
-up_image = tk.PhotoImage(file="up.png")
-down_image = tk.PhotoImage(file="down.png")
-left_image = tk.PhotoImage(file="left.png")
-right_image = tk.PhotoImage(file="right.png")
-play_image = tk.PhotoImage(file="play.png")
-stop_image = tk.PhotoImage(file="stop.png")
+up_image = tk.PhotoImage(file="assets/up.png")
+down_image = tk.PhotoImage(file="assets/down.png")
+left_image = tk.PhotoImage(file="assets/left.png")
+right_image = tk.PhotoImage(file="assets/right.png")
+play_image = tk.PhotoImage(file="assets/play.png")
+stop_image = tk.PhotoImage(file="assets/stop.png")
 
 tk.Button(
    controls, image=up_image, width=40, height=40

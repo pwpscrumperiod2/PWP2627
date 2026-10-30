@@ -2,6 +2,7 @@ import sqlite3
 import tkinter as tk
 from tkinter import messagebox
 
+loggedIn = False
 
 #Set Up Tkinter Window
 displayMain = tk.Tk()
@@ -55,6 +56,8 @@ entry2.pack(padx=3, pady=5)
 
 #Database Connection
 def retrieve_input():
+    global loggedIn
+    global displayMain
     if e1.get() == '' or e2.get() == '':
         messagebox.showinfo("Notification", "Please type a username and password")
         return
@@ -83,6 +86,10 @@ def retrieve_input():
             params = [e1.get()]
             if e2.get() in [password[0] for password in cursor.execute(query, params)]:
                 messagebox.showinfo("Notification", "Successfully Logged In")
+                # ends this window
+                displayMain.destroy()
+                loggedIn = True
+                return
             else:
                 messagebox.showinfo("Notification", "Wrong Password")
         else:
