@@ -5,10 +5,12 @@ import initialize_db
 import login
 import signup
 import rover
+#imports the private settings
+import config
 
 #creates flask app
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "borat"
+app.config["SECRET_KEY"] = config.SECRET_KEY
 
 
 # Register routes from other files

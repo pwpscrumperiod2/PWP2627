@@ -1,8 +1,9 @@
 #import database management library
 import sqlite3
+from pathlib import Path
 
 #create and connect to sql
-conn = sqlite3.connect("pwpProjectLocal/users.db")
+conn = sqlite3.connect(Path(__file__).with_name("users.db"))
 cursor = conn.cursor()
 
 #creates sql table for login

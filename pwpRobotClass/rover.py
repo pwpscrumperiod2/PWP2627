@@ -2,9 +2,11 @@
 from flask import jsonify, redirect, render_template, request
 #Communication with the RASPI library
 import requests
+#imports the private settings
+import config
 
 #IP address of the PI on the CS network
-pi_url = "http://192.168.240.247:5001"
+pi_url = f"http://{config.PI_IP}:{config.PI_PORT}"
 
 #Create a function to setup routes, obtains access to the important app varialbe
 def setup_routes(app):

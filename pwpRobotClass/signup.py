@@ -1,5 +1,6 @@
 #import database management library
 import sqlite3
+from pathlib import Path
 #import web application system
 from flask import request, redirect, render_template
 
@@ -18,7 +19,7 @@ def setup_routes(app):
         password = request.form.get("password")
 
         #Connects to database
-        conn = sqlite3.connect("pwpProjectLocal/users.db")
+        conn = sqlite3.connect(Path(__file__).with_name("users.db"))
         cursor = conn.cursor()
 
         #Fetches Database
