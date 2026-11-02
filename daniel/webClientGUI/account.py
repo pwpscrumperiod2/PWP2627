@@ -3,6 +3,13 @@ import sqlite3
 #import GUI library and its popup windows
 import tkinter as tk
 from tkinter import messagebox
+#import encryption library
+import hashlib
+
+#function to encrypt data
+def hash_data(inputText):
+    return hashlib.sha256(inputText.encode()).hexdigest()
+
 
 #becomes True after a successful login, main.py checks this to open the home screen
 loggedIn = False
@@ -90,12 +97,12 @@ def retrieve_input():
     if radio_var.get() == 1:
         #login to account
         #check if the username is in the list of every saved username
-        if e1.get() in [username[0] for username in cursor.execute("SELECT Username from USERBASE")]:
+        if hash_data(e1.get()) in [username[0] for username in cursor.execute("SELECT Username from USERBASE")]:
             #username is valid
             #get the password saved for this username and compare it
             query = "SELECT Password from USERBASE WHERE Username = ?"
-            params = [e1.get()]
-            if e2.get() in [password[0] for password in cursor.execute(query, params)]:
+            params = [hash_data(e1.get())]
+            if hash_data(e2.get()) in [password[0] for password in cursor.execute(query, params)]:
                 messagebox.showinfo("Notification", "Successfully Logged In")
                 # ends this window
                 displayMain.destroy()
@@ -111,7 +118,7 @@ def retrieve_input():
         #create account
         cursor.execute("SELECT Username from USERBASE")
         #check if the username is already taken
-        if e1.get() in [username[0] for username in cursor.execute("SELECT Username from USERBASE")]:
+        if hash_data(e1.get()) in [username[0] for username in cursor.execute("SELECT Username from USERBASE")]:
             #username already in use
             messagebox.showinfo("Notification", "Username already used, use a different one")
         else:
@@ -119,7 +126,7 @@ def retrieve_input():
             #add the new username and password to the database
             cursor.execute("SELECT * FROM USERBASE")
             query = "INSERT INTO USERBASE (Username, Password) VALUES (?,?)"
-            params = (e1.get(), e2.get())
+            params = (hash_data(e1.get()), hash_data(e2.get()))
             cursor.execute(query, params)
             messagebox.showinfo("Notification", "Successfully created account")
 
