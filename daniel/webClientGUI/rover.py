@@ -6,109 +6,28 @@ import config
 #IP address of the PI on the CS network
 pi_url = f"http://{config.PI_IP}:{config.PI_PORT}"
 
-#forward when the up button is clicked
-def up():
+#Sends a command to the Raspi and shows a popup with the result
+def send_command(action, success_msg):
     try:
-        #Sends a JSON message to Raspi to Forward
+        #Sends a JSON message to Raspi with the given action
         response = requests.post(
             f"{pi_url}/command",
-            json={"action": "forward"},
+            json={"action": action},
             timeout=3
         )
         response.raise_for_status()
 
         #Shows a popup with a success message
-        messagebox.showinfo("Notification", "Successfully Moved Forward!")
+        messagebox.showinfo("Notification", success_msg)
 
     #Shows an error popup if the Pi could not be reached
     except requests.RequestException:
-        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
+        messagebox.showinfo("Notification", f"{action} could not connect to Raspberry Pi")
 
-#backward when the down button is clicked
-def down():
-    try:
-        #Sends a JSON message to Raspi to Backward
-        response = requests.post(
-            f"{pi_url}/command",
-            json={"action": "backward"},
-            timeout=3
-        )
-        response.raise_for_status()
-
-        #Shows a popup with a success message
-        messagebox.showinfo("Notification", "Successfully Moved Backward!")
-    #Shows an error popup if the Pi could not be reached
-    except requests.RequestException:
-        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
-
-#right when the right button is clicked
-def right():
-    try:
-        #Sends a JSON message to Raspi to Right
-        response = requests.post(
-            f"{pi_url}/command",
-            json={"action": "right"},
-            timeout=3
-        )
-        response.raise_for_status()
-
-        #Shows a popup with a success message
-        messagebox.showinfo("Notification", "Successfully Moved Right!")
-
-    #Shows an error popup if the Pi could not be reached
-    except requests.RequestException:
-        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
-
-#left when the left button is clicked
-def left():
-    try:
-        #Sends a JSON message to Raspi to Left
-        response = requests.post(
-            f"{pi_url}/command",
-            json={"action": "left"},
-            timeout=3
-        )
-        response.raise_for_status()
-
-        #Shows a popup with a success message
-        messagebox.showinfo("Notification", "Successfully Moved Left!")
-
-    #Shows an error popup if the Pi could not be reached
-    except requests.RequestException:
-        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
-
-#play when the play button is clicked
-def play():
-    try:
-        #Sends a JSON message to Raspi to Play
-        response = requests.post(
-            f"{pi_url}/command",
-            json={"action": "play"},
-            timeout=3
-        )
-        response.raise_for_status()
-
-        #Shows a popup with a success message
-        messagebox.showinfo("Notification", "Successfully Started!")
-
-    #Shows an error popup if the Pi could not be reached
-    except requests.RequestException:
-        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
-
-#stop when the stop button is clicked
-def stop():
-    try:
-        #Sends a JSON message to Raspi to Stop
-        response = requests.post(
-            f"{pi_url}/command",
-            json={"action": "stop"},
-            timeout=3
-        )
-        response.raise_for_status()
-
-        #Shows a popup with a success message
-        messagebox.showinfo("Notification", "Successfully Stopped!")
-
-    #Shows an error popup if the Pi could not be reached
-    except requests.RequestException:
-        messagebox.showinfo("Notification", "Could not connect to Raspberry Pi")
+#One function per button, each calls send_command with the appropriate action and success message
+def up():    send_command("forward",  "Successfully Moved Forward!")
+def down():  send_command("backward", "Successfully Moved Backward!")
+def left():  send_command("left",     "Successfully Moved Left!")
+def right(): send_command("right",    "Successfully Moved Right!")
+def play():  send_command("play",     "Successfully Started!")
+def stop():  send_command("stop",     "Successfully Stopped!")
