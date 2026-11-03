@@ -1,6 +1,8 @@
-#Communication with the RASPI library
+#communicates any errors or successes to the user 
 from tkinter import messagebox
+#communicates to raspi
 import requests
+#imports the config file that holds the IP address of the Raspi
 import config
 
 #IP address of the PI on the CS network

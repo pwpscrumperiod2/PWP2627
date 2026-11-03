@@ -1,15 +1,7 @@
-#import database management library
-import sqlite3
 #import GUI library and its popup windows
 import tkinter as tk
 from tkinter import messagebox
-#import encryption library
-import hashlib
-
-#function to encrypt data
-def hash_data(inputText):
-    return hashlib.sha256(inputText.encode()).hexdigest()
-
+import accountdb
 
 #becomes True after a successful login, main.py checks this to open the home screen
 loggedIn = False
@@ -65,8 +57,6 @@ entry2 = tk.Entry(displayMain, textvariable=e2, show="*")
 entry2.pack(padx=3, pady=5)
 
 
-
-
 #Database Connection
 #runs when the Submit button is clicked, logs in or creates an account
 def retrieve_input():
@@ -77,64 +67,21 @@ def retrieve_input():
         messagebox.showinfo("Notification", "Please type a username and password")
         return
 
-
     #the database only allows 16 characters for each
     if len(e1.get()) > 16 or len(e2.get()) > 16:
         messagebox.showinfo("Notification", "Please keep username and password under 16 characters")
         return
-
-
-    #create and connect to sql
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-
-
+    
     if radio_var.get() == 0:
         #nothing selected
         messagebox.showinfo("Problem", "Please choose an action and try again")
 
-
-    if radio_var.get() == 1:
-        #login to account
-        #check if the username is in the list of every saved username
-        if hash_data(e1.get()) in [username[0] for username in cursor.execute("SELECT Username from USERBASE")]:
-            #username is valid
-            #get the password saved for this username and compare it
-            query = "SELECT Password from USERBASE WHERE Username = ?"
-            params = [hash_data(e1.get())]
-            if hash_data(e2.get()) in [password[0] for password in cursor.execute(query, params)]:
-                messagebox.showinfo("Notification", "Successfully Logged In")
-                # ends this window
-                displayMain.destroy()
-                loggedIn = True
-                return
-            else:
-                messagebox.showinfo("Notification", "Wrong Password")
-        else:
-            messagebox.showinfo("Notification", "Invalid username")
-
-
-    if radio_var.get() == 2:
-        #create account
-        cursor.execute("SELECT Username from USERBASE")
-        #check if the username is already taken
-        if hash_data(e1.get()) in [username[0] for username in cursor.execute("SELECT Username from USERBASE")]:
-            #username already in use
-            messagebox.showinfo("Notification", "Username already used, use a different one")
-        else:
-            #username unused
-            #add the new username and password to the database
-            cursor.execute("SELECT * FROM USERBASE")
-            query = "INSERT INTO USERBASE (Username, Password) VALUES (?,?)"
-            params = (hash_data(e1.get()), hash_data(e2.get()))
-            cursor.execute(query, params)
-            messagebox.showinfo("Notification", "Successfully created account")
-
-
-    #save changes and exit out of sql
-    conn.commit()
-    conn.close()
+    #check the database for the account
+    if accountdb.check_account(radio_var.get(), e1, e2):
+        loggedIn = True
+        displayMain.destroy()
     return
+
 #Submit Button
 average_button = tk.Button(displayMain, text="Submit", command=retrieve_input)
 average_button.pack(pady=10)
