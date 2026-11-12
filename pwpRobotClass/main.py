@@ -5,6 +5,7 @@ import initialize_db
 import login
 import signup
 import rover
+import video_recieve
 #imports the private settings
 import config
 
@@ -17,6 +18,7 @@ app.config["SECRET_KEY"] = config.SECRET_KEY
 login.setup_routes(app)
 signup.setup_routes(app)
 rover.setup_routes(app)
+video_recieve.setup_routes(app)
 
 #Initializes the application
 if __name__ == "__main__":

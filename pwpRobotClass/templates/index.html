@@ -15,9 +15,11 @@
   </script>
   {% endif %}
 
-    <!--Filler div for the video in the top left-->
+    <!--Live feed from camera 1 on the Pi, served by video_recieve.py-->
     <div class="quadrant top-left">
-        <div class="video">Video</div>
+        <div class="video">
+            <img src="/video_feed/1" alt="Waiting for camera 1...">
+        </div>
     </div>
 
     <!--Quadrant for the inputs-->
@@ -55,9 +57,11 @@
         </div>
     </div>
 
-    <!--Quadrant with div filler for video-->
+    <!--Live feed from camera 2 on the Pi, served by video_recieve.py-->
     <div class="quadrant bottom-left">
-        <div class="video">Video</div>
+        <div class="video">
+            <img src="/video_feed/2" alt="Waiting for camera 2...">
+        </div>
     </div>
 
     <!--Quadrant with user log-->

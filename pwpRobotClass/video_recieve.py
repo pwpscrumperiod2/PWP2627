@@ -1,77 +1,140 @@
+#Receives the two camera streams from the Pi (raspiFiles/remote.py) and shows them on the GUI page
+#Plugs into main.py the same way as login/signup/rover: video_recieve.setup_routes(app)
+#
+#Each camera has its own pipe (its own TCP port, listener thread and frame buffer):
+#   stream 1 -> config.VIDEO_PORT_1 -> /video_feed/1 (top-left box on index.html)
+#   stream 2 -> config.VIDEO_PORT_2 -> /video_feed/2 (bottom-left box on index.html)
+#
+#Wire format sent by the Pi, per frame:
+#   4-byte big-endian length header ("!I"), then the bytes of a JPEG numpy array (from cv2.imencode)
+#
+#The browser gets each stream as MJPEG, so index.html only needs <img src="/video_feed/1">
+#Python code that wants a frame as a numpy image can call get_latest_frame(1) or get_latest_frame(2)
+
 #imports sockets and threading for background running
 import socket
+import struct
 import threading
+#web application library
+from flask import Response, abort
+#imports the private settings
+import config
 
-#points to port and host
-#because this is server side, HOST is '' because it is listening for a connection, not 
-#making one
-PORT = 8000
-HOST = ""
-serverRunning = True
+HOST = "" #listening for a connection, not making one
+HEADER = struct.Struct("!I") #must match struct.pack("!I", ...) in remote.py
+MAX_FRAME_SIZE = 10 * 1024 * 1024 #ignore anything bigger than 10 MB, it isn't a real frame
+CONNECTION_TIMEOUT = 5 #seconds without data before the Pi is treated as disconnected
 
-def listener():
-    global serverRunning
+#reads exactly `size` bytes, or returns None if the Pi disconnected
+def recvExactly(sock, size):
+    data = bytearray()
+    while len(data) < size:
+        chunk = sock.recv(size - len(data))
+        if not chunk:
+            return None
+        data.extend(chunk)
+    return bytes(data)
 
-    #sets timeout for one second, so that every one second, it restarts the listening
-    sock.settimeout(1.0)
+#One pipe: listens on its own port and keeps its own latest frame
+class VideoStream:
+    def __init__(self, name, port):
+        self.name = name
+        self.port = port
+        #latest JPEG received; frameReady wakes up browsers waiting for a new frame
+        self.latestJpeg = None
+        self.frameReady = threading.Condition()
+        self.started = False
+        self.startLock = threading.Lock()
 
-    while listening:
-        try:
-            #recieves the data, decodes it from binary format, and prints it
-            data = sock.recv(1024)
-            print(f"| {data.decode()}")
+    #handles one connection from the Pi until it disconnects
+    def receiveFrames(self, sock):
+        while True:
+            header = recvExactly(sock, HEADER.size)
+            if header is None:
+                return
+            (frameSize,) = HEADER.unpack(header)
 
-            if data.decode() == "Boop":
-                print("The other person closed the connection.")
-                serverRunning = False
-                break
+            if frameSize == 0 or frameSize > MAX_FRAME_SIZE:
+                print(f"{self.name}: bad frame size {frameSize}, dropping connection")
+                return
 
-            if not data:
-                serverRunning = False
-                break
+            jpeg = recvExactly(sock, frameSize)
+            if jpeg is None:
+                return
 
-            if serverRunning == False:
-                break
+            #saves the frame and wakes up any browser waiting on this stream
+            with self.frameReady:
+                self.latestJpeg = jpeg
+                self.frameReady.notify_all()
 
-        except socket.timeout: #shuts it off once hit timeout
-            continue
+    #background thread: waits for the Pi to connect, receives frames, then waits again
+    def listener(self):
+        listeningSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listeningSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        listeningSocket.bind((HOST, self.port))
+        listeningSocket.listen(1)
+        print(f"{self.name}: waiting for the Pi on port {self.port}")
 
-        except OSError: #for the issue on line 26, when it tries to access a sock that doesn't exist
-            print("Connection Closed")
-            break
+        while True:
+            sock, addr = listeningSocket.accept()
+            print(f"{self.name}: Pi connected from {addr[0]}")
+            #timeout so a Pi that drops off Wi-Fi doesn't leave us waiting forever
+            sock.settimeout(CONNECTION_TIMEOUT)
+            try:
+                self.receiveFrames(sock)
+            except OSError: #covers timeouts and connection resets
+                pass
+            finally:
+                sock.close()
+            print(f"{self.name}: Pi disconnected")
 
-listeningSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #starts the listener once; called on the first request for this stream so that only the process
+    #actually serving pages binds the port (Flask's debug reloader runs a second watcher process)
+    def start(self):
+        with self.startLock:
+            if not self.started:
+                threading.Thread(target=self.listener, daemon=True).start()
+                self.started = True
 
-with listeningSocket as listeningSocket:
-    listeningSocket.bind((HOST, PORT))
-    listeningSocket.listen()
+    #yields each new frame in the multipart format browsers understand as live video
+    def mjpegStream(self):
+        lastSent = None
+        while True:
+            with self.frameReady:
+                #wait for a frame we haven't sent yet (timeout so we re-check now and then)
+                self.frameReady.wait_for(
+                    lambda: self.latestJpeg is not None and self.latestJpeg is not lastSent, timeout=5)
+                jpeg = self.latestJpeg
+            if jpeg is None or jpeg is lastSent:
+                continue
+            lastSent = jpeg
+            yield (b"--frame\r\n"
+                   b"Content-Type: image/jpeg\r\n"
+                   b"Content-Length: " + str(len(jpeg)).encode() + b"\r\n\r\n" +
+                   jpeg + b"\r\n")
 
-    while serverRunning: 
-        listening = True
-        sock, addr = listeningSocket.accept()
-            
-        #starts the listener function
-        t = threading.Thread(target=listener)
-        t.start()
+#the two separate pipes
+streams = {
+    1: VideoStream("Video 1", config.VIDEO_PORT_1),
+    2: VideoStream("Video 2", config.VIDEO_PORT_2),
+}
 
-        #opens the connection
-        #this is the actual server-client connection, when it exits this socket closes
-        #on a real persistent server you would not close the (other) listening socket and instead leave it open
-        with sock:
-            print(f"{addr[0]} connected to the server on port {addr[1]}.\n")
+#returns the newest frame of a stream as a numpy image (height x width x 3, BGR), or None if none yet
+def get_latest_frame(streamId):
+    import numpy as np
+    import cv2
+    jpeg = streams[streamId].latestJpeg
+    if jpeg is None:
+        return None
+    return cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR)
 
-            #the actual input loop, where it allows you to type
-            while listening:
-
-                message = input("")
-                if message == "quit":
-                    listening = False
-                    sock.sendall("Boop".encode())
-
-                    print("\nExiting...")
-                    break
-
-                message = message.encode()
-                sock.sendall(message)
-
-            break
+#Create a function to setup routes, obtains access to the important app varialbe
+def setup_routes(app):
+    #live video for the <img> tags on index.html
+    @app.route("/video_feed/<int:streamId>")
+    def video_feed(streamId):
+        if streamId not in streams:
+            abort(404)
+        stream = streams[streamId]
+        stream.start()
+        return Response(stream.mjpegStream(), mimetype="multipart/x-mixed-replace; boundary=frame")
