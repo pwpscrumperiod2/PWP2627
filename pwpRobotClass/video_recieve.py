@@ -22,7 +22,7 @@ import config
 
 HOST = "" #listening for a connection, not making one
 HEADER = struct.Struct("!I") #must match struct.pack("!I", ...) in remote.py
-MAX_FRAME_SIZE = 10 * 1024 * 1024 #ignore anything bigger than 10 MB, it isn't a real frame
+MAX_FRAME_SIZE = 1000 * 1024 * 1024 #ignore anything bigger than 10 MB, it isn't a real frame
 CONNECTION_TIMEOUT = 5 #seconds without data before the Pi is treated as disconnected
 
 #reads exactly `size` bytes, or returns None if the Pi disconnected
@@ -57,7 +57,7 @@ class VideoStream:
             if frameSize == 0 or frameSize > MAX_FRAME_SIZE:
                 print(f"{self.name}: bad frame size {frameSize}, dropping connection")
                 return
-
+            print('something recieved')
             jpeg = recvExactly(sock, frameSize)
             if jpeg is None:
                 return
