@@ -101,7 +101,7 @@ def command():
 
 #initializes the IP and Port
 if __name__ == "__main__":
-    #starts one camera and sends each JPEG frame over both connections
+    #starts the camera and sends each JPEG frame over both connections
     #VIDEO_SERVER_IP must be the IP of the computer running the GUI
     stopVideo, videoThreads = startVideoStreams(
         VIDEO_SERVER_IP,
