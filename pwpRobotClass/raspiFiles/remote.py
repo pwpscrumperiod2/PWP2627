@@ -105,7 +105,7 @@ if __name__ == "__main__":
     #VIDEO_SERVER_IP must be the IP of the computer running the GUI
     stopVideo, videoThreads = startVideoStreams(
         VIDEO_SERVER_IP,
-        CAMERA_INDEX,
+        (CAMERA_INDEX, CAMERA_INDEX)
         (VIDEO_PORT_1, VIDEO_PORT_2)
     )
     try:
