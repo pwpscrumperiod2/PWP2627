@@ -9,6 +9,8 @@ import threading
 JPEG_QUALITY = 80
 RETRY_DELAY = 2 #seconds to wait before reconnecting
 
+camera = cv2.VideoCapture(0)
+
 #Sends frames over one connection until it breaks or we are told to stop
 def streamFrames(camera, videoSocket, stopEvent):
     while not stopEvent.is_set():
@@ -32,7 +34,7 @@ def streamFrames(camera, videoSocket, stopEvent):
 
 #Background thread for one camera: keeps (re)connecting to the GUI and streams frames until stopEvent is set
 def sendFrames(name, cameraIndex, serverIP, serverPort, stopEvent):
-    camera = cv2.VideoCapture(cameraIndex)
+    global camera
     if not camera.isOpened():
         print(f"{name}: could not open camera {cameraIndex}, this stream is disabled")
         return
