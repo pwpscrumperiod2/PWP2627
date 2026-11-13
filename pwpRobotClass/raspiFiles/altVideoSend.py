@@ -72,7 +72,7 @@ def startVideoStreams(serverIP, cameraIndexes, serverPorts):
 
     videoThread = threading.Thread(
          target=sendFrames,
-         args=(f"Video {len(videoThreads) + 1}", index, serverIP, serverPorts, stopEvent),
+         args=(f"Video {len(videoThreads) + 1}", 0, serverIP, serverPorts, stopEvent),
          daemon=True
     )
     videoThread.start()
