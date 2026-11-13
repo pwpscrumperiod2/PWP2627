@@ -6,7 +6,7 @@ from motor import MotorDriver
 from videoSending import startVideoStreams
 
 #IP of the computer running the GUI that receives the video
-VIDEO_SERVER_IP = "CHANGE_ME"
+VIDEO_SERVER_IP = "192.168.240.6"
 #One camera sends the same frame to two separate connections
 #Must match VIDEO_PORT_1 / VIDEO_PORT_2 in config.py on the GUI computer
 VIDEO_PORT_1 = 5002
