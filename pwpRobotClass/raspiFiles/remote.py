@@ -7,14 +7,12 @@ from videoSending import startVideoStreams
 
 #IP of the computer running the GUI that receives the video
 VIDEO_SERVER_IP = "CHANGE_ME"
-#Two cameras, each in its own pipe (own port, own socket, own thread)
+#One camera sends the same frame to two separate connections
 #Must match VIDEO_PORT_1 / VIDEO_PORT_2 in config.py on the GUI computer
 VIDEO_PORT_1 = 5002
 VIDEO_PORT_2 = 5003
-#Camera device numbers (/dev/videoN). Some USB cameras take two numbers each,
-#so if camera 2 won't open try 2 instead of 1 (check with: ls /dev/video*)
-CAMERA_INDEX_1 = 0
-CAMERA_INDEX_2 = 1
+#Camera device number (/dev/videoN)
+CAMERA_INDEX = 0
 
 #Creates a reciever
 app = Flask(__name__)
@@ -103,18 +101,19 @@ def command():
 
 #initializes the IP and Port
 if __name__ == "__main__":
-    #starts each camera stream in its own background thread alongside the Flask server
+    #starts one camera and sends each JPEG frame over both connections
     #VIDEO_SERVER_IP must be the IP of the computer running the GUI
     stopVideo, videoThreads = startVideoStreams(
         VIDEO_SERVER_IP,
-        (CAMERA_INDEX_1, CAMERA_INDEX_2),
+        CAMERA_INDEX,
         (VIDEO_PORT_1, VIDEO_PORT_2)
     )
     try:
-        #use_reloader=False so Flask doesn't spawn a second process that also grabs the cameras
+        #use_reloader=False so Flask doesn't spawn a second process that also grabs the camera
         app.run(host="0.0.0.0", port=5001, threaded=True, use_reloader=False)
     finally:
         stopVideo.set()
         for videoThread in videoThreads:
             videoThread.join(timeout=3)
+            
         STOP()
