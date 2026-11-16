@@ -6,6 +6,8 @@ import login
 import signup
 import rover
 import video_recieve
+import logStream
+
 #imports the private settings
 import config
 
@@ -19,6 +21,7 @@ login.setup_routes(app)
 signup.setup_routes(app)
 rover.setup_routes(app)
 video_recieve.setup_routes(app)
+logStream.setup_routes(app)
 
 #Initializes the application
 if __name__ == "__main__":
