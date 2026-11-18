@@ -6,6 +6,10 @@
     <title>Homepage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <script src="{{ url_for('static', filename='writeLog.js')}}"></script>
+
+    <script>document.addEventListener("DOMContentLoaded", function() { sessionStorage.setItem("username", document.getElementById("username").value)}); console.log("eventlistener worked");</script>
   </head>
   <body>
   <!--A little bit of JS to post alerts-->
@@ -67,8 +71,9 @@
     <!--Quadrant with user log-->
     <div class="quadrant bottom-right">
         <div class="user-log-title">User Log</div>
-        <div id="user-log"></div>
+        <div id="user-log" style="white-space: pre-wrap; padding: 40px;"></div>
     </div>
 
   </body>
+  <script src="{{ url_for('static', filename='showLog.js')}}"></script>
 </html>

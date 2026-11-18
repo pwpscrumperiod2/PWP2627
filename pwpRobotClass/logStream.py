@@ -1,3 +1,5 @@
+from flask import Flask
+
 def setup_routes(app):
 	@app.route("/log.txt")
 	def logText():

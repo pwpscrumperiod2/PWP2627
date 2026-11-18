@@ -6,6 +6,10 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='account_pages.css') }}">
+
+    <script src="{{ url_for('static', filename='writeLog.js')}}"></script>
+
+
   </head>
   <body>
         <!--A little bit of JS to post alerts-->
@@ -22,7 +26,7 @@
             <input type="text" pattern="[A-Za-z0-9]+" id="username" name="username">
             <label for="password"> Password: </label>
             <input type="password" pattern="[A-Za-z0-9]+" id="password" name="password">
-            <input type="submit" id="submit" name="submit" value="Log In">
+            <input type="submit" id="submit" name="submit" value="Log In" onclick="saveName()">
         </form>
         <!--Redirect to login-->
         <a href="signup.html" id="signupLink"> Don't have an account? Click here </a>
