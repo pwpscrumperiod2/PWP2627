@@ -4,6 +4,10 @@ from flask import jsonify, redirect, render_template, request
 import requests
 #imports the private settings
 import config
+import time
+
+#import log writer
+from logUpdate import writeToLog
 
 #IP address of the PI on the CS network
 pi_url = f"http://{config.PI_IP}:{config.PI_PORT}"
@@ -19,6 +23,11 @@ def setup_routes(app):
     #forward when the up button is clicked
     @app.route("/up", methods=["POST"])
     def up():
+
+        ctime = time.time()
+        username = request.form.get("username")
+        writeToLog("[" + str(ctime) + "] " + username + " clicked the up button.")
+
         try:
             #Sends a JSON message to Raspi to Forward
             response = requests.post(
@@ -42,6 +51,10 @@ def setup_routes(app):
     #backward when the down button is clicked
     @app.route("/down", methods=["POST"])
     def down():
+        ctime = time.time()
+        username = request.form.get("username")
+        writeToLog("[" + str(ctime) + "] " + username + " clicked the down button.")
+
         try:
             #Sends a JSON message to Raspi to Backward
             response = requests.post(
@@ -65,6 +78,10 @@ def setup_routes(app):
     #right when the right button is clicked
     @app.route("/right", methods=["POST"])
     def right():
+        ctime = time.time()
+        username = request.form.get("username")
+        writeToLog("[" + str(ctime) + "] " + username + " clicked the right button.")
+
         try:
             #Sends a JSON message to Raspi to Right
             response = requests.post(
@@ -88,6 +105,10 @@ def setup_routes(app):
     #left when the left button is clicked
     @app.route("/left", methods=["POST"])
     def left():
+        ctime = time.time()
+        username = request.form.get("username")
+        writeToLog("[" + ctime + "] " + username + " clicked the left button.")
+
         try:
             #Sends a JSON message to Raspi to Left
             response = requests.post(
@@ -111,6 +132,10 @@ def setup_routes(app):
     #play when the play button is clicked
     @app.route("/play", methods=["POST"])
     def play():
+        ctime = time.time()
+        username = request.form.get("username")
+        writeToLog("[" + str(ctime) + "] " + username + " clicked the play button.")
+
         try:
             #Sends a JSON message to Raspi to Play
             response = requests.post(
@@ -134,6 +159,11 @@ def setup_routes(app):
     #stop when the stop button is clicked
     @app.route("/stop", methods=["POST"])
     def stop():
+        ctime = time.time()
+        ctime = str(ctime)
+        username = request.form.get("username")
+        writeToLog("[" + str(ctime) + "] " + username + " clicked the stop button.")
+
         try:
             #Sends a JSON message to Raspi to Stop
             response = requests.post(

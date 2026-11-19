@@ -7,9 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-    <script src="{{ url_for('static', filename='writeLog.js')}}"></script>
+    <script>console.log("Testing")</script>
 
-    <script>document.addEventListener("DOMContentLoaded", function() { sessionStorage.setItem("username", document.getElementById("username").value)}); console.log("eventlistener worked");</script>
+    <script src="{{ url_for('static', filename='writeLog.js')}}"></script>
+    <script>document.addEventListener("DOMContentLoaded", loginLogger)</script>
+    <script>document.addEventListener("DOMContentLoaded", function () { const inputs = document.querySelectorAll('input'); inputs.forEach(input => { input.value = sessionStorage.getItem("username"); }); console.log("Got username.")});</script>
+
   </head>
   <body>
   <!--A little bit of JS to post alerts-->
@@ -31,31 +34,37 @@
         <div class="controls">
             <!--Up button connected to the /up request-->
             <form action="/up" method="post" class="move-up">
+                <input type="hidden" name="username">
                 <button type="submit">▲</button>
             </form>
 
             <!--Left button connected to the /left request-->
             <form action="/left" method="post" class="move-left">
+                <input type="hidden" name="username">
                 <button type="submit">◄</button>
             </form>
 
             <!--PLay button connected to the /play request-->
             <form action="/play" method="post" class="start">
+                <input type="hidden" name="username">
                 <button type="submit">▶</button>
             </form>
 
             <!--Stop button connected to the /stop request-->
             <form action="/stop" method="post" class="stop">
+                <input type="hidden" name="username">
                 <button type="submit">■</button>
             </form>
 
             <!--Right button connected to the /right request-->
             <form action="/right" method="post" class="move-right">
+                <input type="hidden" name="username">
                 <button type="submit">►</button>
             </form>
 
             <!--Down button connected to the /down request-->
             <form action="/down" method="post" class="move-down">
+                <input type="hidden" name="username">
                 <button type="submit">▼</button>
             </form>
         </div>
@@ -76,4 +85,5 @@
 
   </body>
   <script src="{{ url_for('static', filename='showLog.js')}}"></script>
+  <script>document.querySelectorAll("input").forEach(input => {input.value = sessionStorage.getItem("username");}); //username sending</script>
 </html>

@@ -1,3 +1,5 @@
+console.log("WriteLog loaded")
+
 async function writeLog(message) {
 
     console.log("writeLog fired");
@@ -9,15 +11,22 @@ async function writeLog(message) {
         },
         body: message
     });
+
+    await console.log(response.json())
 }
 
-//name saver for login screen
-async function saveName() {
+//logs login to log.txt
+async function loginLogger() {
     let time = Date.now();
-    let username = sessionStorage.getItem("username")
+    const username = sessionStorage.getItem("username")
 
-    writeLog(username + " logged in at " + time);
-    console.log(username + "logged in at " + time)
+    writeLog("[" + time + "] " + username + " logged in.");
+    console.log("[" + time + "] " + username + " logged in.");
+}
+
+//saves name to session storage
+async function saveName() {
+    sessionStorage.setItem("username", document.getElementById("username").value)
 }
 
 //action logger
@@ -25,6 +34,6 @@ async function actionLogger(action) {
     let time = Date.now();
     let username  = sessionStorage.getItem("username")
 
-    writeLog(username + " clicked the  " + action + " button.");
-    console.log(username + " clicked the  " + action + " button.")
+    writeLog("[" + time + "] " + username + " clicked the  " + action + " button.");
+    console.log("[" + time + "] " + username + " clicked the  " + action + " button.")
 }
