@@ -5,3 +5,6 @@
 [1795107673795] daniel logged in.
 [1795107715599] daniel logged in.
 [1795107716.639396] daniel clicked the up button.
+[1795233438596] daniel logged in.
+[1795233447.5164666] daniel clicked the right button.
+[1795233459.0553138] daniel clicked the down button.
