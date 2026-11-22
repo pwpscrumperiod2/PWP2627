@@ -18,6 +18,9 @@ import numpy as np
 import cv2
 # web application library
 from flask import Response, abort
+#import the processing function
+import image_process
+
 # imports the private settings
 import config
 
@@ -136,7 +139,11 @@ def get_latest_frame(streamId):
         jpeg = streams[streamId].latestJpeg
     if jpeg is None:
         return None
-    return cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR)
+    if streamId == 1:
+        #First stream returns raw video
+        return cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR)
+    if streamId == 2:
+        return image_process.process_image(cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR))
 
 # Create a function to setup routes, obtains access to the important app variable
 def setup_routes(app):

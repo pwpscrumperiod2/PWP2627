@@ -26,16 +26,15 @@ def merge_lines(group):
 
     return x1, y1, x2, y2
 
-def main():    
+#image is a numpy array
+def process_image(inputImage):    
 #tips and tricks: use contrast and brightness and stuff
-    startTime = time.time()
-    filename = 'output.png'
-
     # Loads an image for display purposes
-    colorImage = cv.imread(cv.samples.findFile(filename), cv.IMREAD_COLOR)
+    colorImage = inputImage #A NUMPY ARRAY
 
     #this image gets operated on
-    image = cv.imread(cv.samples.findFile(filename), cv.IMREAD_GRAYSCALE)
+    #convert colorimage to grayscale
+    image = cv.cvtColor(colorImage, cv.COLOR_BGR2GRAY)
     #Adjust contrast/brightness
     image = cv.convertScaleAbs(image, alpha=0.9, beta=0)
 
@@ -119,10 +118,5 @@ def main():
     #midpoint line display
     cv.line(colorImage, ((lx1+rx1)//2, (ly1+ry1)//2), ((lx2+rx2)//2, (ly2+ry2)//2), (255,0,0), 3, cv.LINE_AA)
 
-    print(time.time() - startTime)
-    cv.imshow("Image with overlay", colorImage)
-    cv.imshow("Image after processing", dst)
-    cv.waitKey(0) 
+    return colorImage
     
-if __name__ == "__main__":
-    main()
