@@ -131,20 +131,6 @@ streams = {
     2: VideoStream("Video 2", config.VIDEO_PORT_2),
 }
 
-# returns the newest frame of a stream as a numpy image (height x width x 3, BGR), or None if none yet
-def get_latest_frame(streamId):
-    if streamId not in streams:
-        return None
-    with streams[streamId].frameReady:
-        jpeg = streams[streamId].latestJpeg
-    if jpeg is None:
-        return None
-    if streamId == 1:
-        #First stream returns raw video
-        return cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR)
-    if streamId == 2:
-        return image_process.process_image(cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR))
-
 # Create a function to setup routes, obtains access to the important app variable
 def setup_routes(app):
     # live video for the <img> tags on index.html
@@ -155,3 +141,8 @@ def setup_routes(app):
         stream = streams[streamId]
         stream.start()
         return Response(stream.mjpegStream(), mimetype="multipart/x-mixed-replace; boundary=frame")
+    
+
+##important
+# return cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR)
+# return image_process.process_image(cv2.imdecode(np.frombuffer(jpeg, dtype=np.uint8), cv2.IMREAD_COLOR))
