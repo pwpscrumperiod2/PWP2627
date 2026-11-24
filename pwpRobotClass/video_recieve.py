@@ -70,7 +70,7 @@ class VideoStream:
                     return
 
                 # Stream 2 only: decode the JPEG, draw the lane overlay, re-encode it
-                if self.port == config.VIDEO_PORT_2:
+                if self.port == config.VIDEO_PORT_1:
                     try:
                         image = cv2.imdecode(np.frombuffer(frameData, dtype=np.uint8), cv2.IMREAD_COLOR)
                         image = image_process.process_image(image)
