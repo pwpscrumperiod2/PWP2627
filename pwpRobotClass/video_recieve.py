@@ -9,7 +9,6 @@
 #    4-byte unsigned int header ("!I"), followed by raw JPEG bytes from cv2.imencode
 #
 # The browser gets each stream as MJPEG, so index.html only needs <img src="/video_feed/1">
-# Python code that wants a frame as a numpy image can call get_latest_frame(1) or get_latest_frame(2)
 
 import socket
 import struct
@@ -69,6 +68,17 @@ class VideoStream:
                 frameData = self.receiveExact(sock, msgSize)
                 if frameData is None:
                     return
+
+                # Stream 2 only: decode the JPEG, draw the lane overlay, re-encode it
+                if self.port == config.VIDEO_PORT_2:
+                    try:
+                        image = cv2.imdecode(np.frombuffer(frameData, dtype=np.uint8), cv2.IMREAD_COLOR)
+                        image = image_process.process_image(image)
+                        ok, buffer = cv2.imencode(".jpg", image)
+                        if ok:
+                            frameData = buffer.tobytes()
+                    except cv2.error as e:
+                        print(f"{self.name}: processing failed, sending raw frame ({e})")
 
                 # 3. Save the JPEG bytes and wake up any browser waiting on this stream
                 with self.frameReady:

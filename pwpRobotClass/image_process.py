@@ -28,7 +28,7 @@ def merge_lines(group):
 
 #image is a numpy array
 def process_image(inputImage):    
-#tips and tricks: use contrast and brightness and stuff
+    #tips and tricks: use contrast and brightness and stuff
     # Loads an image for display purposes
     colorImage = inputImage #A NUMPY ARRAY
 
@@ -96,18 +96,25 @@ def process_image(inputImage):
         maxLineGap=8
     )
 
+    #nothing found so return original
+    if linesP is None:
+        return colorImage
+
     #tries to merge the tiny segments from each different lane
     left_lines = []
     right_lines = []
-    for line in linesP:
-        x1, y1, x2, y2 = line
+    for x1, y1, x2, y2 in linesP:
 
         slope = (y2 - y1) / (x2 - x1 + 1e-6)
 
         if slope < 0:
-            left_lines.append(line)
+            left_lines.append((x1, y1, x2, y2))
         else:
-            right_lines.append(line)
+            right_lines.append((x1, y1, x2, y2))
+
+    #only on one of the sides
+    if len(left_lines) or len(right_lines) == 0:
+        return colorImage
 
     lx1, ly1, lx2, ly2 = merge_lines(left_lines)
     cv.line(colorImage, (lx1, ly1), (lx2, ly2), (0,255,0), 3, cv.LINE_AA)
@@ -117,6 +124,4 @@ def process_image(inputImage):
 
     #midpoint line display
     cv.line(colorImage, ((lx1+rx1)//2, (ly1+ry1)//2), ((lx2+rx2)//2, (ly2+ry2)//2), (255,0,0), 3, cv.LINE_AA)
-
     return colorImage
-    
