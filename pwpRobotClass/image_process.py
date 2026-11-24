@@ -113,7 +113,7 @@ def process_image(inputImage):
             right_lines.append((x1, y1, x2, y2))
 
     #only on one of the sides
-    if len(left_lines) or len(right_lines) == 0:
+    if len(left_lines) == 0 or len(right_lines) == 0:
         return colorImage
 
     lx1, ly1, lx2, ly2 = merge_lines(left_lines)
@@ -125,3 +125,5 @@ def process_image(inputImage):
     #midpoint line display
     cv.line(colorImage, ((lx1+rx1)//2, (ly1+ry1)//2), ((lx2+rx2)//2, (ly2+ry2)//2), (255,0,0), 3, cv.LINE_AA)
     return colorImage
+
+print()
